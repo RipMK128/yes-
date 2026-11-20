@@ -45,6 +45,7 @@ public enum Power {
     TIME("Time", 0xA98BFF, Material.CLOCK, Material.PURPLE_STAINED_GLASS_PANE,
             "Quickstep", 12, "Grants speed, jumping, and slow falling.",
             "Time Snare", 40, "Slows and reveals nearby enemies.");
+
     private final String displayName;
     private final int rgb;
     private final TextColor color;
@@ -67,39 +68,18 @@ public enum Power {
         this.descriptions = new String[]{desc1, desc2};
     }
 
-    public String displayName() {
-        return displayName;
-    }
-
-    public TextColor color() {
-        return color;
-    }
+    public String displayName() { return displayName; }
+    public TextColor color() { return color; }
 
     /** The color as a plain 0xRRGGBB number, handy for dust particles. */
-    public int rgb() {
-        return rgb;
-    }
-
-    public Material icon() {
-        return icon;
-    }
-
-    public Material pane() {
-        return pane;
-    }
+    public int rgb() { return rgb; }
+    public Material icon() { return icon; }
+    public Material pane() { return pane; }
 
     /** slot is 1 or 2 */
-    public String abilityName(int slot) {
-        return abilityNames[slot - 1];
-    }
-
-    public int cooldownSeconds(int slot) {
-        return cooldowns[slot - 1];
-    }
-
-    public String description(int slot) {
-        return descriptions[slot - 1];
-    }
+    public String abilityName(int slot) { return abilityNames[slot - 1]; }
+    public int cooldownSeconds(int slot) { return cooldowns[slot - 1]; }
+    public String description(int slot) { return descriptions[slot - 1]; }
 
     public static Power fromName(String name) {
         if (name == null) return null;
@@ -110,18 +90,3 @@ public enum Power {
         }
     }
 }
-    NATURE("Nature", 0x54E36B, Material.OAK_SAPLING, Material.LIME_STAINED_GLASS_PANE,
-            "Seed Burst", 12, "Poisons nearby enemies in a burst of seeds.",
-            "Wildgrowth", 32, "Regenerates you amid a spiral of living energy."),
-    STORM("Storm", 0x7DEBFF, Material.LIGHTNING_ROD, Material.LIGHT_BLUE_STAINED_GLASS_PANE,
-            "Chain Lightning", 12, "Lightning arcs through nearby enemies.",
-            "Thunderstorm", 38, "Calls lightning down on nearby enemies."),
-    FROST("Frost", 0x8DEBFF, Material.BLUE_ICE, Material.BLUE_STAINED_GLASS_PANE,
-            "Frost Nova", 14, "Freezes nearby enemies and slows them.",
-            "Ice Lance", 30, "Fires an ice lance at a target."),
-    EARTH("Earth", 0xC98A52, Material.TERRACOTTA, Material.BROWN_STAINED_GLASS_PANE,
-            "Seismic Slam", 16, "Damages and launches nearby enemies.",
-            "Stoneguard", 42, "Creates a shield surrounded by stone particles."),
-    TIME("Time", 0xA98BFF, Material.CLOCK, Material.PURPLE_STAINED_GLASS_PANE,
-            "Quickstep", 12, "Grants speed, jumping, and slow falling.",
-            "Time Snare", 40, "Slows and reveals nearby enemies.");
