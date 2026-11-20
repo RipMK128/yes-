@@ -70,13 +70,9 @@ public enum Power {
 
     public String displayName() { return displayName; }
     public TextColor color() { return color; }
-
-    /** The color as a plain 0xRRGGBB number, handy for dust particles. */
     public int rgb() { return rgb; }
     public Material icon() { return icon; }
     public Material pane() { return pane; }
-
-    /** slot is 1 or 2 */
     public String abilityName(int slot) { return abilityNames[slot - 1]; }
     public int cooldownSeconds(int slot) { return cooldowns[slot - 1]; }
     public String description(int slot) { return descriptions[slot - 1]; }
