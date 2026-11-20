@@ -22,16 +22,15 @@ public final class EclipsePowers extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PowerListener(this, manager, menus, roller), this);
 
-        PowerCommand command = new PowerCommand(this, manager, menus, roller);
         PluginCommand power = getCommand("power");
         if (power != null) {
+            PowerCommand command = new PowerCommand(this, manager, menus, roller);
             power.setExecutor(command);
             power.setTabCompleter(command);
         }
 
-        getLogger().info("EclipsePowers enabled.");
+        getLogger().info("EclipsePowers enabled with custom model effects.");
 
-        // every player's power shows as a subtle aura around them
         if (getConfig().getBoolean("aura", true)) {
             new BukkitRunnable() {
                 @Override
@@ -41,11 +40,10 @@ public final class EclipsePowers extends JavaPlugin {
                         if (power != null) manager.abilities().aura(p, power);
                     }
                 }
-            }.runTaskTimer(this, 40L, 4L);
+            }.runTaskTimer(this, 40L, 12L);
         }
     }
 
-    /** /power reload: re-reads config.yml and applies it without a restart. */
     public void reloadAll() {
         reloadConfig();
         Fx.setDensity(getConfig().getDouble("particle-density", 1.0));

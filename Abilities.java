@@ -1,7 +1,5 @@
 package dev.smp.eclipsepowers;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -57,7 +55,7 @@ public final class Abilities {
     }
 
     public void reloadSettings() {
-        targetMode = plugin.getConfig().getString("target-mode", "hostile").toLowerCase(Locale.ROOT);
+        targetMode = plugin.getConfig().getString("target-mode", "hostile").toLowerance(Locale.ROOT);
     }
 
     private double dmg(String key, double fallback) {
@@ -66,7 +64,9 @@ public final class Abilities {
 
     public boolean cast(Player p, Power power, int slot) {
         if (power.ordinal() >= Power.NATURE.ordinal()) {
-            return NewPowers.cast(plugin, manager, p, power, slot);
+            boolean used = NewPowers.cast(plugin, manager, p, power, slot);
+            if (used) CustomEffects.cast(p, power, slot);
+            return used;
         }
 
         boolean first = slot == 1;
@@ -91,6 +91,7 @@ public final class Abilities {
         double big = slot == 2 ? 1.0 : 0.0;
         Fx.expandingRing(plugin, b.clone().add(0, 0.1, 0), 0.3, 2.0 + big * 1.4, 5, rgb, 1.4f, null);
         Fx.dustBurst(b.clone().add(0, 1, 0), rgb, 1.4f, 16, 0.45);
+        CustomEffects.cast(p, power, slot);
         p.getWorld().playSound(b, Sound.BLOCK_BEACON_POWER_SELECT, 0.6f, slot == 2 ? 1.6f : 1.9f);
     }
 
@@ -100,6 +101,7 @@ public final class Abilities {
         Fx.burst(c, Particle.SOUL, 30, 0.4, 0.1);
         Fx.dustBurst(c, rgb, 1.8f, 40, 0.7);
         Fx.expandingRing(plugin, where.clone().add(0, 0.1, 0), 0.3, 3.5, 7, rgb, 1.5f, Particle.END_ROD);
+        CustomEffects.cast(killer, power, 1);
         where.getWorld().playSound(where, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1f, 1.4f);
     }
 
@@ -142,20 +144,22 @@ public final class Abilities {
     }
 
     public void aura(Player p, Power power) {
-        if (p.getGameMode() == GameMode.SPECTATOR || p.isDead()) return;
-        Fx.ringDust(p.getLocation().clone().add(0, 0.05, 0), 1.0, 12, power.rgb(), 0.8f);
+        if (p.getGameMode() == GameMode.SPECTATOR || p.isDead() || p.isInvisible()) return;
+        CustomEffects.aura(p, power);
     }
 
     public void awakenEffect(Player p, Power power) {
         Location b = p.getLocation();
         Fx.expandingRing(plugin, b.clone().add(0, 0.1, 0), 0.5, 6, 12, power.rgb(), 1.6f, Particle.END_ROD);
         Fx.burst(b.clone().add(0, 1, 0), Particle.FIREWORK, 40, 0.8, 0.2);
+        CustomEffects.cast(p, power, 2);
     }
 
     public void levelUpEffect(Player p, Power power) {
         Location b = p.getLocation();
         Fx.expandingRing(plugin, b.clone().add(0, 0.1, 0), 0.5, 8, 12, power.rgb(), 1.8f, Particle.END_ROD);
         Fx.burst(b.clone().add(0, 1, 0), Particle.TOTEM_OF_UNDYING, 40, 0.7, 0.4);
+        CustomEffects.cast(p, power, 2);
     }
 
     private boolean isTarget(Player caster, Entity e) {
