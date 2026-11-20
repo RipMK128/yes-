@@ -55,7 +55,7 @@ public final class Abilities {
     }
 
     public void reloadSettings() {
-        targetMode = plugin.getConfig().getString("target-mode", "hostile").toLowerance(Locale.ROOT);
+        targetMode = plugin.getConfig().getString("target-mode", "hostile").toLowerCase(Locale.ROOT);
     }
 
     private double dmg(String key, double fallback) {
