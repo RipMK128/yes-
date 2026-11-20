@@ -69,6 +69,9 @@ public final class Abilities {
     }
 
     public boolean cast(Player p, Power power, int slot) {
+                if (power.ordinal() >= Power.NATURE.ordinal()) {
+            return NewPowers.cast(plugin, manager, p, power, slot);
+        }
         boolean first = slot == 1;
         boolean ok = switch (power) {
             case VOID -> first ? voidPull(p) : voidRift(p);
@@ -1244,15 +1247,4 @@ public final class Abilities {
         double cap = max == null ? 20.0 : max.getValue();
         p.setHealth(Math.min(cap, p.getHealth() + amount));
     }
-
-    /** Where the player is looking: the first block hit, or the point at max range. */
-    private Location targetLocation(Player p, double range) {
-        Location eye = p.getEyeLocation();
-        Vector dir = eye.getDirection();
-        RayTraceResult hit = p.getWorld().rayTraceBlocks(eye, dir, range, FluidCollisionMode.NEVER, true);
-        if (hit != null) {
-            return hit.getHitPosition().toLocation(p.getWorld());
-        }
-        return eye.clone().add(dir.multiply(range));
-    }
-}
+    
